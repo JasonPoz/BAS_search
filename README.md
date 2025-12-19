@@ -44,8 +44,6 @@
 git clone https://github.com/JasonPoz/BAS_search.git
 ````
 
-(Подставь реальные значения из GitHub.)
-
 ### 2.2. Создание и активация виртуального окружения
 
 **Windows (PowerShell):**
@@ -92,8 +90,6 @@ pip install -r requirements.txt
        }
    }
    ```
-
-   При необходимости подправь `NAME`, `USER`, `PASSWORD`.
 
 ### 2.5. Миграции
 
