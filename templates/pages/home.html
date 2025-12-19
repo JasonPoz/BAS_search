@@ -1,0 +1,175 @@
+<!-- home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Главная - Словарь терминов БАС{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-top-row">
+            <div class="hero-text-content">
+                <h1 class="hero-title">
+                    <span class="hero-title-line1">Переводите термины и выражения</span>
+                    <span class="hero-title-line2">в области беспилотных авиационных систем</span>
+                </h1>
+                
+                <!-- Обертка для языковых селекторов -->
+                <div class="lang-selectors-wrapper">
+                    <div class="double-lang-selector">
+                        <!-- Первый селектор (исходный язык) -->
+                        <div class="dict-lang-selector" id="source-lang">
+                            <button class="dict-lang-current">
+                                <span class="dict-lang-selected" data-lang="ru">Русский</span>
+                                <span class="dict-lang-arrow">▼</span>
+                            </button>
+                            <div class="dict-lang-dropdown">
+                                <div class="dict-lang-item" data-lang="ru">Русский</div>
+                                <div class="dict-lang-item" data-lang="en">Английский</div>
+                                <div class="dict-lang-item" data-lang="fr">Французский</div>
+                                <div class="dict-lang-item" data-lang="es">Испанский</div>
+                                <div class="dict-lang-item" data-lang="cn">Китайский</div>
+                            </div>
+                        </div>
+                        <div class="lang-arrow">→</div>
+                        <!-- Второй селектор (целевой язык) -->
+                        <div class="dict-lang-selector" id="target-lang">
+                            <button class="dict-lang-current">
+                                <span class="dict-lang-selected" data-lang="en">Английский</span>
+                                <span class="dict-lang-arrow">▼</span>
+                            </button>
+                            <div class="dict-lang-dropdown">
+                                <div class="dict-lang-item" data-lang="en">Английский</div>
+                                <div class="dict-lang-item" data-lang="ru">Русский</div>
+                                <div class="dict-lang-item" data-lang="fr">Французский</div>
+                                <div class="dict-lang-item" data-lang="es">Испанский</div>
+                                <div class="dict-lang-item" data-lang="cn">Китайский</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="/static/img/бпла.png" alt="Беспилотный летательный аппарат">
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="search-section">
+    <div class="container">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Введите слово, выражение, аббревиатуру">
+            <button class="search-btn">Найти</button>
+        </div>
+        
+        <div class="quick-links-horizontal">
+            <a href="#" class="quick-link-horizontal">
+                <img src="/static/img/book-open-text.png" alt="Мой словарь" class="quick-link-icon">
+                <span>Мой словарь</span>
+            </a>
+            <a href="#" class="quick-link-horizontal">
+                <img src="/static/img/history.png" alt="История" class="quick-link-icon">
+                <span>История</span>
+            </a>
+            <a href="#" class="quick-link-horizontal">
+                <img src="/static/img/image 1.png" alt="Цепочка поставок" class="quick-link-icon">
+                <span>Целевой составок</span>
+            </a>
+            <a href="#" class="quick-link-horizontal">
+                <img src="/static/img/Section → Link.png" alt="Анализ" class="quick-link-icon">
+                <span>Анализ</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="main-container"></div>
+    <div class="info-cards-container">
+        <!-- Первая карточка - перевод + регистрация -->
+        <div class="translation-card">
+            <p class="translation-text">Получите перевод тысяч терминов и выражений в области беспилотников благодаря нашей технологии поиска на основе большого количества легионных данных.</p>
+            
+            <div class="register-block">
+                <p>Зарегистрируйтесь на сайте бесплатно, чтобы использовать сохранения в истории поиска и добавлять избранное в Словарь.</p>
+                <button class="btn-register">Зарегистрироваться</button>
+            </div>
+        </div>
+        
+        <!-- Вторая карточка - скачивание приложения -->
+        <div class="download-card">
+            <p class="download-title">Скачайте наше бесплатное приложение</p>
+            <div class="download-buttons">
+                <a href="#" class="app-btn">
+                    <img src="/static/img/google-play-badge.png">
+                </a>
+                <a href="#" class="app-btn">
+                    <img src="/static/img/app-store-badge.png">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Рекламный блок -->
+    <div class="ad-card">
+        <p>Тут могла быть ваша реклама</p>
+    </div>
+
+    <div class="subscription-wrapper">
+        <!-- блок с подпиской и партнерами -->
+        <div class="subscription-container">
+            <!-- Блок подписки -->
+            <div class="subscription-card">
+                <h3 class="subscription-title">Больше возможностей<br><span>с подпиской БАС+</span></h3>
+                
+                <ul class="subscription-features">
+                    <li>Неограниченное количество запросов</li>
+                    <li>Построение цепочки поставок</li>
+                    <li>Развернутый аналитический отчет</li>
+                    <li>Инфографика</li>
+                    <li>Никакой рекламы</li>
+                </ul>
+                
+                <button class="btn-subscribe">Оформить подписку БАС+</button>
+            </div>
+
+            <!-- Изображение самолёта -->
+            <div class="airplane-container">
+                <img src="/static/img/Самолет.png" alt="Самолёт" class="airplane-image">
+            </div>
+            
+            <!-- Блок партнеров -->
+            <div class="partners-right">
+                <p class="partners-title">Наши партнеры и эксперты</p>
+                <div class="partner-logos">
+                    <img src="/static/img/Партнеры.png" alt="Партнеры" class="partners-image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bas-container">
+        <div class="bas-bottom-cards">
+            <div class="bas-subscription-card">
+                <div class="bas-benefits">
+                    <div class="benefit-item">✓ Перевод терминов беспилотных авиационных систем Русский - Английский - Китайский и др.</div>
+                    <div class="benefit-item">✓ Актуальная терминология, проверенная экспертами</div>
+                    <div class="benefit-item">✓ Определения и пояснения к терминам на русском языке</div>
+                    <div class="benefit-item">✓ Примеры употребления терминов</div>
+                </div>
+                
+                <!-- Этот блок будет с цветным фоном -->
+                <div class="bas-cta-block colored-bg">
+                    <p class="bas-cta-text">Подпишись на Учусь БАС+ и подготовься к экзамену по терминологии БАС на русском, английском и китайском на 5+</p>
+                    <button class="bas-subscribe-btn">Оформить Учусь БАС+</button>
+                </div>
+            </div>
+            
+            <div class="bas-ad-card">
+                <div class="ad-placeholder">
+                    <p>Тут могла быть ваша реклама</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

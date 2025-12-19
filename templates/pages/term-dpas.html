@@ -1,0 +1,101 @@
+{% extends '../base.html' %}
+
+{% block title %}Определение термина | БАС Словарь{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">
+            <span class="hero-title-line1">Определение</span>
+            <div class="hero-image">
+                <img src="/static/img/бпла.png" alt="Беспилотный летательный аппарат">
+            </div>
+        </h1>
+
+        <!-- Языковые селекторы -->
+        <div class="lang-selectors-wrapper">
+            <div class="double-lang-selector">
+                <div class="dict-lang-selector" id="source-lang">
+                    <button class="dict-lang-current">
+                        <span class="dict-lang-selected" data-lang="{{ source_lang }}">{{ source_lang }}</span>
+                        <span class="dict-lang-arrow">▼</span>
+                    </button>
+                    <div class="dict-lang-dropdown">
+                        <div class="dict-lang-item" data-lang="ru">Русский</div>
+                        <div class="dict-lang-item" data-lang="en">Английский</div>
+                        <div class="dict-lang-item" data-lang="fr">Французский</div>
+                        <div class="dict-lang-item" data-lang="es">Испанский</div>
+                        <div class="dict-lang-item" data-lang="cn">Китайский</div>
+                    </div>
+                </div>
+                <div class="lang-arrow">→</div>
+                <div class="dict-lang-selector" id="target-lang">
+                    <button class="dict-lang-current">
+                        <span class="dict-lang-selected" data-lang="{{ target_lang }}">{{ target_lang }}</span>
+                        <span class="dict-lang-arrow">▼</span>
+                    </button>
+                    <div class="dict-lang-dropdown">
+                        <div class="dict-lang-item" data-lang="en">Английский</div>
+                        <div class="dict-lang-item" data-lang="ru">Русский</div>
+                        <div class="dict-lang-item" data-lang="fr">Французский</div>
+                        <div class="dict-lang-item" data-lang="es">Испанский</div>
+                        <div class="dict-lang-item" data-lang="cn">Китайский</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if term %}
+<div class="term-page container">
+    <div class="term-header">
+        <h2>
+            {% if source_lang == 'ru' %}
+                {{ term.term_rus }}{% if term.abbr_rus %} ({{ term.abbr_rus }}){% endif %}
+            {% else %}
+                {{ term.term_eng }}{% if term.abbr_eng %} ({{ term.abbr_eng }}){% endif %}
+            {% endif %}
+        </h2>
+
+        {% if source_lang == 'ru' and target_lang == 'en' %}
+            <h3>Перевод на английский:</h3>
+            <p>{{ term.term_eng }}{% if term.abbr_eng %} ({{ term.abbr_eng }}){% endif %}</p>
+            <h4>Контекст:</h4>
+            <p>{{ term.context_eng|default:"Контекст отсутствует." }}</p>
+            <h4>Определение:</h4>
+            <p>{{ term.definition_eng|default:"Определение отсутствует." }}</p>
+
+        {% elif source_lang == 'en' and target_lang == 'ru' %}
+            <h3>Перевод на русский:</h3>
+            <p>{{ term.term_rus }}{% if term.abbr_rus %} ({{ term.abbr_rus }}){% endif %}</p>
+            <h4>Контекст:</h4>
+            <p>{{ term.context_rus|default:"Контекст отсутствует." }}</p>
+            <h4>Определение:</h4>
+            <p>{{ term.definition_rus|default:"Определение отсутствует." }}</p>
+
+        {% else %}
+            <p><em>Перевод для выбранной языковой пары недоступен.</em></p>
+        {% endif %}
+    </div>
+
+    <div class="term-cta">
+        <p><strong>Добавьте термин в избранное или изучите другие определения!</strong></p>
+
+        {% if user.is_authenticated %}
+        <form action="{% url 'dictionary:add_to_favorites' term.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-register">Добавить в избранное</button>
+        </form>
+        {% else %}
+        <p><a href="{% url 'login' %}">Войдите</a>, чтобы добавлять термины в избранное.</p>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <h2>Термин не найден</h2>
+    <p>Попробуйте изменить запрос или язык поиска.</p>
+</div>
+{% endif %}
+{% endblock %}

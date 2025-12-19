@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}Редактирование профиля - {{ request.user }}{% endblock %}
+
+{% block content %}
+<div class="profile-edit-container">
+  <div class="profile-edit-header">
+    <h2>Редактирование профиля</h2>
+    <p class="username">@{{ request.user.username }}</p>
+  </div>
+
+  <form method="post" class="profile-edit-form">
+    {% csrf_token %}
+    
+    {% bootstrap_form form %}
+    
+    <div class="form-actions">
+      <button type="submit" class="submit-btn">Сохранить изменения</button>
+      <a href="{% url 'users:profile' request.user.username %}" class="cancel-btn">Отмена</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% block content %}
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p class="text-center">
+        У вашего аккаунта нет доступа к этой странице.
+        Чтобы продолжить, войдите в систему с аккаунтом,
+        у которого есть доступ.
+      </p>
+    {% else %}
+      <p class="text-center">
+        Пожалуйста, войдите в систему,
+        чтобы просматривать эту страницу.
+      </p>
+    {% endif %}
+  {% endif %}
+  
+  <div class="login-container">
+    <div class="login-header">
+      <h2>Вход</h2>
+      <p>Войдите в аккаунт, чтобы получить доступ к истории поиска и списку избранного</p>
+    </div>
+    
+    <form method="post" action="{% url 'login' %}" class="login-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_username"><h2>Логин</h2></label>
+        <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" class="form-control">
+      </div>
+      
+      <div class="form-group">
+        <label for="id_password"><h2>Пароль</h2></label>
+        <input type="password" name="password" autocomplete="current-password" required id="id_password" class="form-control">
+      </div>
+      
+      <div class="form-footer">
+        <a href="{% url 'password_reset' %}" class="forgot-password">Забыли пароль?</a>
+        <button type="submit" class="login-button">Войти</button>
+      </div>
+      
+      <input type="hidden" name="next" value="{{ next }}">
+    </form>
+    
+    <div class="register-link">
+      Нет аккаунта? <a href="{% url 'registration' %}">Зарегистрироваться</a>
+    </div>
+  </div>
+{% endblock %}

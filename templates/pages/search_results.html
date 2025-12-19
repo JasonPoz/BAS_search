@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}Результаты поиска{% endblock %}
+
+{% block content %}
+
+<style>
+  /* заголовок */
+  .search-header {
+    font-weight: 600;
+  }
+
+  /* блок "Перевести также в" */
+  .lang-switch-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  .lang-switch-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+
+
+  .btn-lang {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+
+    color: #111111 !important;
+    text-decoration: none !important;
+
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  /* чтобы не становились фиолетовыми после клика */
+  .btn-lang:visited {
+    color: #111111 !important;
+  }
+
+  .btn-lang:hover {
+    transform: translateY(-1px) scale(1.03);
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+  }
+
+  .btn-lang:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35);
+  }
+
+  /* карточка термина */
+  .term-card {
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+  }
+
+  .term-card + .term-card {
+    margin-top: 1.25rem;
+  }
+
+  /* блоки языков внутри карточки */
+  .lang-block {
+    border-radius: 0.6rem;
+    padding: .9rem 1rem;
+    background-color: #f8fafc;
+    height: 100%;
+  }
+
+  .lang-block-right {
+    background-color: #f3f4ff;
+  }
+
+  .lang-block-title {
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: .35rem;
+  }
+
+  .lang-badge {
+    font-size: .75rem;
+    font-weight: 600;
+  }
+
+  .term-main-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: .35rem;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: #9ca3af;
+    margin-bottom: .15rem;
+  }
+
+  .section-block + .section-block {
+    margin-top: .7rem;
+    padding-top: .7rem;
+    border-top: 1px dashed #e5e7eb;
+  }
+
+  /* вертикальное разделение колонок на десктопе */
+  @media (min-width: 768px) {
+    .term-card .col-md-6:first-child {
+      border-right: 1px solid #e5e7eb;
+    }
+  }
+
+  /* на мобилках — разделять по вертикали */
+  @media (max-width: 767.98px) {
+    .term-card .col-md-6:first-child {
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: .75rem;
+      padding-bottom: .75rem;
+    }
+  }
+</style>
+
+<h2 class="search-header mb-3">
+  Результаты поиска для "{{ query }}"
+  {% if source_lang and target_lang %}
+    ({{ source_lang.name }} → {{ target_lang.name }})
+  {% endif %}
+</h2>
+
+{% if extra_targets %}
+  <div class="mb-4 lang-switch-wrap">
+    <span class="lang-switch-label">Перевести также в:</span>
+    {% for lang in extra_targets %}
+      <a
+        class="btn btn-sm btn-outline-primary btn-lang"
+        target="_blank"
+        href="{% url 'dictionary:term_search' %}?query={{ query|urlencode }}&source_lang={{ source_lang.code }}&target_lang={{ lang.code }}"
+      >
+        {{ lang.name }}
+      </a>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% if rows %}
+  {% for row in rows %}
+    <div class="card term-card">
+      <div class="card-body">
+        <div class="row g-4">
+          <!-- Левая колонка: исходный язык -->
+          <div class="col-md-6">
+            <div class="lang-block">
+              <div class="lang-block-title">
+                Термин, определение и контекст
+              </div>
+              <span class="badge bg-secondary-subtle text-secondary lang-badge">
+                {{ source_lang.name }}
+              </span>
+
+              {% if row.src_term %}
+                <div class="term-main-title mt-2">
+                  {{ row.src_term.name }}
+                </div>
+              {% endif %}
+
+              {% if row.src_def or row.src_ctx %}
+                <div class="mt-2">
+                  {% if row.src_def %}
+                    <div class="section-block">
+                      <div class="section-label">Определение</div>
+                      <div>{{ row.src_def }}</div>
+                    </div>
+                  {% endif %}
+                  {% if row.src_ctx %}
+                    <div class="section-block">
+                      <div class="section-label">Контекст</div>
+                      <div>{{ row.src_ctx }}</div>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Правая колонка: целевой язык -->
+          <div class="col-md-6">
+            <div class="lang-block lang-block-right">
+              <div class="lang-block-title">
+                Термин, определение и контекст
+              </div>
+              <span class="badge bg-primary-subtle text-primary lang-badge">
+                {{ target_lang.name }}
+              </span>
+
+              {% if row.tgt_term %}
+                <div class="term-main-title mt-2">
+                  {{ row.tgt_term.name }}
+                </div>
+              {% else %}
+                <div class="term-main-title mt-2 text-muted">
+                  Перевод термина не найден
+                </div>
+              {% endif %}
+
+              {% if row.tgt_def or row.tgt_ctx %}
+                <div class="mt-2">
+                  {% if row.tgt_def %}
+                    <div class="section-block">
+                      <div class="section-label">Определение</div>
+                      <div>{{ row.tgt_def }}</div>
+                    </div>
+                  {% elif row.src_def %}
+                    <div class="section-block text-muted">
+                      <div class="section-label">Определение</div>
+                      <div>Нет готового определения на {{ target_lang.name }}.</div>
+                    </div>
+                  {% endif %}
+
+                  {% if row.tgt_ctx %}
+                    <div class="section-block">
+                      <div class="section-label">Контекст</div>
+                      <div>{{ row.tgt_ctx }}</div>
+                    </div>
+                  {% elif row.src_ctx %}
+                    <div class="section-block text-muted">
+                      <div class="section-label">Контекст</div>
+                      <div>Нет готового контекста на {{ target_lang.name }}.</div>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>Ничего не найдено по вашему запросу.</p>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+{% endblock %}

@@ -1,0 +1,70 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Словарь терминов БАС{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1 0 auto;
+            padding-bottom: 40px; /* Отступ от footer */
+        }
+    </style>
+</head>
+<body>
+    {% include 'includes/header.html' %}
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'includes/footer.html' %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    {% block scripts %}
+    {{ block.super }}
+
+    {% if 'password_change' in request.path %}
+    <script src="{% static 'js/password-validation.js' %}"></script>
+    {% endif %}
+
+    <script src="{% static 'js/dict_lang_selector.js' %}"></script>
+
+    <!-- 🔍 АВТОЗАПОЛНЕНИЕ -->
+    <script>
+    $(function() {
+        $("#search-input").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{% url 'dictionary:autocomplete_terms' %}",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 2
+        });
+    });
+    </script>
+    {% endblock %}
+</body>
+</html>
