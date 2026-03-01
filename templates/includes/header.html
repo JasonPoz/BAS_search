@@ -5,39 +5,40 @@
             <div class="header-left">
                 <nav>
                     <ul class="nav-menu">
-                        <li><a href="/">Главная страница</a></li>
-                        <li><a href="/terms/dpas">Определение</a></li>
-                        <li><a href="/legal">Организации</a></li>
-                        <li><a href="/supply-chain">Поставки</a></li>
+                        <li><a href="/">Главная страница</a></li>в
+                        <li><a href="{% url 'dictionary:dictionary' %}">Весь словарь</a>
+</li>
+
                     </ul>
                 </nav>
             </div>
+
             <div class="header-right">
-                <!-- Кнопка скачать мобильную версию -->
+                <!--Кнопка скачать мобильную версию
                 <a href="#" class="btn-download">
                     <i class="fas fa-mobile-alt"></i> Скачать приложение
                 </a>
+                -->
+
                 {% with request.resolver_match.view_name as view_name %}
                     {% if user.is_authenticated %}
-                        <div class = "profile-buttons">
-                        <a href = "{% url 'users:profile' user.username %}" class="btn-profile">
-                            Профиль
-                        </a>
-                        <a href="{% url 'logout' %}?next={% url 'dictionary:home' %}" class="btn-logout">
-                            Выйти
-                        </a>
+                        <div class="profile-buttons">
+                            <a href="{% url 'users:profile' user.username %}" class="btn-profile">
+                                Профиль
+                            </a>
+                            <a href="{% url 'logout' %}?next={% url 'dictionary:home' %}" class="btn-logout">
+                                Выйти
+                            </a>
                         </div>
-                        
                     {% else %}
-                        <div class="auth-buttons">
-                        <a href="{% url 'login' %}" class="btn-login">Войти</a>
-                        <a href="{% url 'registration' %}" class="btn-register">Регистрация</a>
-                        </div>
-                    {% endif %}
-                    </div>
+                        <!--{# <div class="auth-buttons">
+                            <a href="{% url 'login' %}" class="btn-login">Войти</a>
+                            <a href="{% url 'registration' %}" class="btn-register">Регистрация</a>
+                        </div> #}
+                    {% endif %} -->
                 {% endwith %}
-        
-                <!-- Выбор языка -->
+
+                <!-- Выбор языка
                 <div class="language-selector">
                     <div class="selected-language">RU</div>
                     <div class="language-options">
@@ -46,6 +47,7 @@
                     </div>
                 </div>
                 <script src="{% static 'js/language-selector.js' %}"></script>
+                #}-->
             </div>
         </div>
     </div>
@@ -54,6 +56,3 @@
 <!-- Подключение стилей -->
 <link rel="stylesheet" href="{% static 'css/header.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-
-

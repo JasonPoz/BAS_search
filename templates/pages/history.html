@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}История поиска{% endblock %}
+
+{% block content %}
+<h1>История поиска</h1>
+
+{% if need_login %}
+  <p>Чтобы видеть историю поиска, нужно войти в аккаунт.</p>
+{% else %}
+  {% if items %}
+    <ul class="dictionary-list">
+      {% for it in items %}
+        <li class="dictionary-item">
+          <strong>{{ it.query }}</strong>
+          <div style="opacity:.8;">
+            {{ it.source_lang }} → {{ it.target_lang }} · результатов: {{ it.results_count }} · {{ it.created_at|date:"d.m.Y H:i" }}
+          </div>
+          <div style="margin-top:6px;">
+            <a class="btn btn-sm btn-outline-primary"
+               href="{% url 'dictionary:term_search' %}?query={{ it.query|urlencode }}&source_lang={{ it.source_lang }}&target_lang={{ it.target_lang }}">
+              Повторить поиск
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+      <div class="pagination">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}">←</a>
+        {% endif %}
+        <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">→</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% else %}
+    <p>История пока пустая.</p>
+  {% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Весь словарь{% if language %} ({{ language.name }}){% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>Весь словарь{% if language %} — {{ language.name }}{% endif %}</h1>
+
+<!-- Переключатель языка -->
+<div class="mb-3">
+    <form method="get" class="d-flex align-items-center gap-2">
+        <label for="lang" class="mb-0">Язык словаря:</label>
+        <select name="lang" id="lang" class="form-select" style="max-width: 220px;" onchange="this.form.submit()">
+            {% for lang in languages %}
+                <option value="{{ lang.code }}" {% if lang.code == lang_code %}selected{% endif %}>
+                    {{ lang.name }} ({{ lang.code }})
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+
+{% if translations %}
+    <ul class="dictionary-list">
+        {% for tr in translations %}
+            <li class="dictionary-item">
+                <strong>{{ tr.name }}</strong>
+
+                {% if tr.abbreviation %}
+                    <span class="abbr">({{ tr.abbreviation }})</span>
+                {% endif %}
+
+                {% with tr.term.defs_for_lang as defs %}  {# Изменено: используем defs_for_lang для выбранного языка #}
+                    {% if defs %}
+                        <div class="definition">
+                            {{ defs.0.text|truncatechars:200 }}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}&lang={{ lang_code }}">←</a>
+            {% endif %}
+            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&lang={{ lang_code }}">→</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <p>Словарь пока пуст.</p>
+{% endif %}
+{% endblock %}
