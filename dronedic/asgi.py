@@ -1,5 +1,5 @@
 """
-ASGI config for bas_project project.
+ASGI config for dronedic project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

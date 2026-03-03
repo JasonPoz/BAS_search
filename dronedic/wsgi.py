@@ -1,5 +1,5 @@
 """
-WSGI config for bas_project project.
+WSGI config for dronedic project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

@@ -82,7 +82,7 @@ pip install -r requirements.txt
    DATABASES = {
        'default': {
            'ENGINE': 'django.db.backends.postgresql',
-           'NAME': 'bas_project',
+           'NAME': 'dronedic',
            'USER': 'postgres',
            'PASSWORD': 'your_password',
            'HOST': 'localhost',

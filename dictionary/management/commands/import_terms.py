@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         conn = psycopg2.connect(
-            dbname='bas_project',
+            dbname='dronedic',
             user='postgres',
             password='1337',
             host='localhost',
