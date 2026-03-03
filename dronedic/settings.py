@@ -91,10 +91,10 @@ WSGI_APPLICATION = 'dronedic.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'bas_project'),  # Используйте переменные окружения для безопасности
+        'NAME': os.environ.get('DB_NAME', 'dronedic'),  # Используйте переменные окружения для безопасности
         'USER': os.environ.get('DB_USER', 'postgres'),
         'PASSWORD': os.environ.get('DB_PASSWORD', '1337'),
-        'HOST': os.environ.get('DB_HOST', 'dronedic-db.postgres.render.com'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
