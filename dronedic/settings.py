@@ -94,11 +94,16 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME', 'dronedic'),  # Используйте переменные окружения для безопасности
         'USER': os.environ.get('DB_USER', 'postgres'),
         'PASSWORD': os.environ.get('DB_PASSWORD', '1337'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'HOST': os.environ.get('DB_HOST', 'dronedic-db.postgres.render.com'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
-
+import os
+print("DB_NAME: ", os.environ.get('DB_NAME'))
+print("DB_USER: ", os.environ.get('DB_USER'))
+print("DB_PASSWORD: ", os.environ.get('DB_PASSWORD'))
+print("DB_HOST: ", os.environ.get('DB_HOST'))
+print("DB_PORT: ", os.environ.get('DB_PORT'))
 
 
 # Password validation
