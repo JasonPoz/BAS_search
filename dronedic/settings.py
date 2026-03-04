@@ -11,11 +11,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+from dotenv import load_dotenv
+import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
+env = environ.Env()
+# читаем .env файл
+environ.Env.read_env()
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -90,14 +93,20 @@ WSGI_APPLICATION = 'dronedic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'dronedic-db.postgres.render.com',
-        'NAME': os.environ.get('DB_NAME', 'dronedic'),  # Используйте переменные окружения для безопасности
+        'ENGINE': 'django.db.backends.postgresql',  # это значение для использования PostgreSQL
+        'NAME': os.environ.get('DB_NAME', 'dronedic'),
         'USER': os.environ.get('DB_USER', 'postgres'),
         'PASSWORD': os.environ.get('DB_PASSWORD', '1337'),
         'HOST': os.environ.get('DB_HOST', 'dronedic-db.postgres.render.com'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
+DB_NAME = env('DB_NAME', default='dronedic')
+DB_USER = env('DB_USER', default='postgres')
+DB_PASSWORD = env('DB_PASSWORD', default='1337')
+DB_HOST = env('DB_HOST', default='localhost')
+DB_PORT = env('DB_PORT', default='5432')
+
 import os
 print("DB_NAME: ", os.environ.get('DB_NAME'))
 print("DB_USER: ", os.environ.get('DB_USER'))
